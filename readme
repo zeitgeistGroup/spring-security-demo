@@ -1,0 +1,113 @@
+
+
+Spring Security
+----------------
+
+1. normaly  create a  project with web dependency from spring.io
+
+https://start.spring.io/
+
+2.check all is running fine or not.
+
+3.add one controller and test all running fine or not
+
+1.Form Based Authentication
+---------------------------
+
+2.Basic Aithrernticate
+------------------------
+
+
+1.Form based :
+---------------
+
+1. ad dependency in in pom
+
+  		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+ 2. Thats it for based authenticate is ready
+
+       default username: user
+       default password: every time application start gives password to your console
+
+
+2.Basic Aithrernticate
+-----------------------
+
+
+1.Make a config class and  AppSecurityConfig and add below configurations
+
+   @Configuration
+   @EnableWebSecurity
+
+
+2.You need to extends  WebSecurityConfigurerAdapter   class in your config class and re run it will show the basic Auth
+
+
+3.   override below method
+
+
+    protected void configure(HttpSecurity http) throws Exception {}
+
+4.Add below method adaptor which will create you to basic Auth
+
+    http.authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic();
+
+
+
+
+ 5.Add below ant Matchers then it will permits the URL which we have defined ,need not to authenticate
+
+  http.authorizeRequests()
+            .antMatchers("/","index","/css/*")//this one
+            .permitAll()//this one
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic();
+
+
+Basic Authenticata by database
+------------------------------
+6.From data basis basic Auth every user should have this values.
+  Username
+  password(Encoded)
+  Role
+  Autorities?
+  and more
+
+
+ 2. And need to override this method for getting the user from data base.
+  @Override
+    protected UserDetailsService userDetailsService() {
+        return super.userDetailsService();
+    }
+
+3.mainly in memory user create for learning purpose.
+
+ UserDetails ramUser=User.builder()
+            .username("ram")
+            .password("password")
+            .roles("STUDENT")
+            .build();
+
+        return new InMemoryUserDetailsManager(
+            ramUser
+        );
+
+
+
+
+
+ DisAdvantages: We can not logout by this
+
+
+
+
